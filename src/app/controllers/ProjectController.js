@@ -1,4 +1,5 @@
 let projects = [];
+export { projects };
 
 class ProjectController {
   index(req, res) {

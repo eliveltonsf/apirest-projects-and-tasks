@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 
 import ProjectController from "./app/controllers/ProjectController";
+import TasksController from "./app/controllers/TasksController";
 
 const routes = new Router();
 routes.use(express.json());
@@ -21,11 +22,6 @@ routes.put("/projects/:id", ProjectController.update);
 
 routes.delete("/projects/:id", ProjectController.delete);
 
-routes.post("/projects/:id/tasks", (req, res) => {
-  const id = req.params.id;
-  const { task } = req.body;
-  insertTask(id, task);
-  return res.json({ Message: "Tarefa incluida no projeto!" });
-});
+routes.post("/projects/:id/tasks", TasksController.store);
 
 export default routes;
