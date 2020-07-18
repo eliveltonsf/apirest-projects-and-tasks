@@ -1,6 +1,8 @@
 let projects = [];
 export { projects };
 
+let counter = 1;
+
 class ProjectController {
   index(req, res) {
     return res.json(projects);
@@ -8,13 +10,22 @@ class ProjectController {
 
   store(req, res) {
     const { title, tasks } = req.body;
-    const counter = projects.length;
+
+    const id = counter;
+
+    for (let i = 0; i < projects.length; i++) {
+      if (projects[i].id == id) {
+        return res.status(400).json({ error: "Project alredy exists." });
+      }
+    }
 
     projects.push({
-      id: counter + 1,
+      id,
       title: title,
       tasks: tasks,
     });
+
+    counter++;
 
     return res.json({ Message: "Projeto cadastrado!" });
   }
