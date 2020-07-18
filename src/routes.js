@@ -1,32 +1,9 @@
 import express, { Router } from "express";
-import bodyParser from "body-parser";
+
+import ProjectController from "./app/controllers/ProjectController";
 
 const routes = new Router();
 routes.use(express.json());
-
-let projects = [];
-
-function createProjects(title, tasks) {
-  const counter = projects.length;
-  projects.push({
-    id: counter + 1,
-    title: title,
-    tasks: tasks,
-  });
-}
-
-function updateProjects(id, title) {
-  const position = id - 1;
-  projects[position].title = title;
-}
-
-function deleteProject(id) {
-  for (let i = 0; i < projects.length; i++) {
-    if (projects[i].id == id) {
-      projects.splice(i, 1);
-    }
-  }
-}
 
 function insertTask(id, task) {
   for (let i = 0; i < projects.length; i++) {
@@ -36,29 +13,13 @@ function insertTask(id, task) {
   }
 }
 
-routes.get("/projects", async (req, res) => {
-  return await res.json(projects);
-});
+routes.get("/projects", ProjectController.index);
 
-routes.post("/projects", (req, res) => {
-  const { title, tasks } = req.body;
-  createProjects(title, tasks);
-  console.log(title, tasks);
-  return res.json({ Message: "Projeto cadastrado!" });
-});
+routes.post("/projects", ProjectController.store);
 
-routes.put("/projects/:id", (req, res) => {
-  const id = req.params.id;
-  const { title } = req.body;
-  updateProjects(id, title);
-  return res.json({ Message: "Projeto atualizado!" });
-});
+routes.put("/projects/:id", ProjectController.update);
 
-routes.delete("/projects/:id", (req, res) => {
-  const id = req.params.id;
-  deleteProject(id);
-  return res.json({ Message: "Projeto deletado" });
-});
+routes.delete("/projects/:id", ProjectController.delete);
 
 routes.post("/projects/:id/tasks", (req, res) => {
   const id = req.params.id;
