@@ -15,6 +15,10 @@ function createProjects(title, tasks) {
   });
 }
 
+routes.get("/projects", async (req, res) => {
+  return await res.json(projects);
+});
+
 routes.post("/projects", (req, res) => {
   const { title, tasks } = req.body;
   createProjects(title, tasks);
