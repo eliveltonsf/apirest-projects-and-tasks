@@ -1,8 +1,8 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import bodyParser from "body-parser";
 
 const routes = new Router();
-routes.use(bodyParser.json());
+routes.use(express.json());
 
 let projects = [];
 
@@ -24,6 +24,14 @@ function deleteProject(id) {
   for (let i = 0; i < projects.length; i++) {
     if (projects[i].id == id) {
       projects.splice(i, 1);
+    }
+  }
+}
+
+function insertTask(id, task) {
+  for (let i = 0; i < projects.length; i++) {
+    if (projects[i].id == id) {
+      projects[i].tasks.push(task);
     }
   }
 }
@@ -50,6 +58,13 @@ routes.delete("/projects/:id", (req, res) => {
   const id = req.params.id;
   deleteProject(id);
   return res.json({ Message: "Projeto deletado" });
+});
+
+routes.post("/projects/:id/tasks", (req, res) => {
+  const id = req.params.id;
+  const { task } = req.body;
+  insertTask(id, task);
+  return res.json({ Message: "Tarefa incluida no projeto!" });
 });
 
 export default routes;
