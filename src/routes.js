@@ -15,6 +15,11 @@ function createProjects(title, tasks) {
   });
 }
 
+function updateProjects(id, title) {
+  const position = id - 1;
+  projects[position].title = title;
+}
+
 routes.get("/projects", async (req, res) => {
   return await res.json(projects);
 });
@@ -23,7 +28,14 @@ routes.post("/projects", (req, res) => {
   const { title, tasks } = req.body;
   createProjects(title, tasks);
   console.log(title, tasks);
-  return res.json({ Message: "Projeto Cadastrado!" });
+  return res.json({ Message: "Projeto cadastrado!" });
+});
+
+routes.put("/projects/:id", (req, res) => {
+  const id = req.params.id;
+  const { title } = req.body;
+  updateProjects(id, title);
+  return res.json({ Message: "Projeto atualizado!" });
 });
 
 export default routes;
