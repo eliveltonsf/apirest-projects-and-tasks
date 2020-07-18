@@ -20,6 +20,14 @@ function updateProjects(id, title) {
   projects[position].title = title;
 }
 
+function deleteProject(id) {
+  for (let i = 0; i < projects.length; i++) {
+    if (projects[i].id == id) {
+      projects.splice(i, 1);
+    }
+  }
+}
+
 routes.get("/projects", async (req, res) => {
   return await res.json(projects);
 });
@@ -36,6 +44,12 @@ routes.put("/projects/:id", (req, res) => {
   const { title } = req.body;
   updateProjects(id, title);
   return res.json({ Message: "Projeto atualizado!" });
+});
+
+routes.delete("/projects/:id", (req, res) => {
+  const id = req.params.id;
+  deleteProject(id);
+  return res.json({ Message: "Projeto deletado" });
 });
 
 export default routes;
