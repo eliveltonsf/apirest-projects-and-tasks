@@ -35,6 +35,11 @@ class ProjectController {
     const { title } = req.body;
 
     const position = id - 1;
+
+    if (position >= projects.length) {
+      return res.status(400).json({ error: "Project does not exists." });
+    }
+
     projects[position].title = title;
 
     return res.json({ Message: "Projeto atualizado!" });
@@ -42,6 +47,12 @@ class ProjectController {
 
   delete(req, res) {
     const id = req.params.id;
+
+    const index = projects.length + 1;
+
+    if (id >= index) {
+      return res.status(400).json({ error: "Project does not exists." });
+    }
 
     for (let i = 0; i < projects.length; i++) {
       if (projects[i].id == id) {
