@@ -1,5 +1,5 @@
- <h1 align="center" ><img style="width: 450px; height:300px;" src="https://images.idgesg.net/images/article/2018/01/project-management_multi-tasking_analytics_data-science-100747100-large.jpg"/>
- </h1>
+ <h5 align="center"><img style="width: 300px; height:200px;" src="https://images.idgesg.net/images/article/2018/01/project-management_multi-tasking_analytics_data-science-100747100-large.jpg"/>
+ </h5>
 
 <h1 align="center">Projects and tasks 📋</h1>
 
@@ -49,9 +49,9 @@
 
 #### Requirements
 
-:heavy_check_mark: id auto increment.
-:heavy_check_mark: check if there is an id for the update, deletion and insertion routes of the tasks.
-( if not, return an error )
+- id auto increment.
+- check if there is an id for the update, deletion and insertion routes of the tasks.
+  ( if not, return an error )
 
 #### Array format
 
@@ -75,7 +75,7 @@ I created this API to save data in memory within a matrix, in order to put my kn
 
 <br />
 
-<h2 id="objective" name="objective">
+<h2 id="how-to-use" name="how-to-use">
 ▶️ How to Run
 </h2>
 
@@ -95,9 +95,9 @@ $ yarn start
 
 #### :gear: You can test the API
 
-- [x] Install Insomnia Core - <a href="https://insomnia.rest/download/"> Download </a>
+- [ ] Install Insomnia Core - <a href="https://insomnia.rest/download/"> Download </a>
 
-- [x] After installing, download the request structure created for insomina. <a href="#"> Insomnia_project_task.json </a>
+- [ ] After installing, download the request structure created for insomina. <a href="https://github.com/eliveltonsf/apirestful-projects-and-tasks/blob/master/assets/Insomnia_project_task.rar?raw=true"> Insomnia_project_task.json </a>
 
 <blockquote>
   Importing the json file into insomnia:
