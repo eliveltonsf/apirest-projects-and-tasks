@@ -1,66 +1,102 @@
-let projects = [];
-export { projects };
+import fs from "fs";
+import data from "../../../data.json";
+
+function writeData(data) {
+  fs.writeFile("data.json", JSON.stringify(data, null, 2), function (err) {
+    if (err) {
+      console.log(`[SERVER] Write file error: ${err}`);
+    }
+  });
+}
 
 let counter = 1;
 
+function returnIndex(id) {
+  let position;
+
+  data.projects.forEach((project, index) => {
+    if (project.id == id) {
+      position = index;
+    }
+  });
+
+  return position;
+}
+
+function returnLastUsedId() {
+  let lastId;
+
+  data.projects.forEach((project, index) => {
+    if (index == data.projects.length - 1) {
+      lastId = project.id || 0;
+    }
+  });
+
+  return lastId;
+}
+
 class ProjectController {
   index(req, res) {
-    return res.json(projects);
+    return res.json(data.projects);
   }
 
   store(req, res) {
     const { title, tasks } = req.body;
 
-    const id = counter;
+    const returnFuncition = returnLastUsedId() + 1;
 
-    for (let i = 0; i < projects.length; i++) {
-      if (projects[i].id == id) {
-        return res.status(400).json({ error: "Project alredy exists." });
-      }
+    const id = returnFuncition ? returnFuncition : 1;
+
+    const projectExists = returnIndex(id);
+
+    if (projectExists !== undefined) {
+      return res.status(400).json({ error: "Project alredy exists." });
     }
 
-    projects.push({
+    const newProject = {
       id,
       title: title,
       tasks: tasks,
-    });
+    };
 
-    counter++;
+    data.projects.push(newProject);
 
-    return res.json({ Message: "Projeto cadastrado!" });
+    writeData(data);
+
+    return res.json({ Message: "Project created!" });
   }
 
   update(req, res) {
     const id = req.params.id;
     const { title } = req.body;
 
-    const position = id - 1;
+    const position = returnIndex(id);
 
-    if (position >= projects.length) {
+    if (position === undefined) {
       return res.status(400).json({ error: "Project does not exists." });
     }
 
-    projects[position].title = title;
+    data.projects[position].title = title;
 
-    return res.json({ Message: "Projeto atualizado!" });
+    writeData(data);
+
+    return res.json({ Message: "Project updated!" });
   }
 
   delete(req, res) {
     const id = req.params.id;
 
-    const index = projects.length + 1;
+    const position = returnIndex(id);
 
-    if (id >= index) {
+    if (position === undefined) {
       return res.status(400).json({ error: "Project does not exists." });
     }
 
-    for (let i = 0; i < projects.length; i++) {
-      if (projects[i].id == id) {
-        projects.splice(i, 1);
-      }
-    }
+    data.projects.splice(position, 1);
 
-    return res.json({ Message: "Projeto deletado" });
+    writeData(data);
+
+    return res.json({ Message: "Project deleted!" });
   }
 }
 
